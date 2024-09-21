@@ -10,10 +10,11 @@ function echo_message() {
 
 # Função para instalação via APT
 install_package_using_apt() {
+    clear
     echo_message "Iniciando instalação via APT..."
     
     echo_message "Atualizando o sistema"
-    sudo apt update
+    sudo apt update && sudo apt upgrade -y
 
     # Lista de pacotes APT
     local apt_packages=(
@@ -41,6 +42,7 @@ install_package_using_apt() {
 
 # Função para instalação via Flatpak
 install_package_using_flatpack() {
+    clear
     echo_message "Iniciando instalação via Flatpak..."
     
     echo_message "Atualizando o sistema"
@@ -74,9 +76,10 @@ install_package_using_flatpack() {
 
 # Função para configurar o Zsh
 configure_zsh() {
+    clear
     echo_message "Configurando o Zsh..."
 
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     local zshrc_file="$HOME/.zshrc"
     
@@ -92,6 +95,10 @@ configure_zsh() {
     git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
     echo_message "Zsh configurado com sucesso!"
+
+    chsh -s $(which zsh)
+
+    exec zsh
 }
 
 # Menu principal
@@ -114,6 +121,8 @@ while true; do
             configure_zsh
             ;;
         4)
+            echo "Para que as configurações sejam refletidas é necessário que seja reiniciado o seu sistema."
+            sleep 3
             echo "Saindo..."
             exit 0
             ;;
