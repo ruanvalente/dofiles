@@ -16,6 +16,16 @@ source ./configure_zsh.sh
 
 END_SCRIPT_MESSAGE="Obrigado por usar o script.\nPara que as configurações sejam refletidas, é necessário reiniciar o seu sistema."
 
+# Função para desfazer todas as ações
+undo_all() {
+    clear
+    echo_message "Desfazendo todas as ações..."
+    undo_install_package_using_apt
+    undo_install_package_using_flatpak
+    undo_configure_zsh
+    echo_message "Todas as ações foram desfeitas."
+}
+
 # Menu principal
 while true; do
     clear
