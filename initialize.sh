@@ -76,18 +76,13 @@ install_package_using_flatpack() {
 configure_zsh() {
     echo_message "Configurando o Zsh..."
 
-    # Instala o Oh My Zsh
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-    # Adiciona plugins ao .zshrc
     local zshrc_file="$HOME/.zshrc"
     
-    # Verifica se o arquivo .zshrc já contém a linha de plugins
     if grep -q '^plugins=(' "$zshrc_file"; then
-        # Substitui a linha existente
         sed -i.bak 's/^plugins=(.*)/plugins=(git asdf zsh-syntax-highlighting zsh-autosuggestions)/' "$zshrc_file"
     else
-        # Adiciona a linha de plugins se não existir
         echo "plugins=(git asdf zsh-syntax-highlighting zsh-autosuggestions)" >> "$zshrc_file"
     fi
 
